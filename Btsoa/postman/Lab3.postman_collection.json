@@ -1,0 +1,54 @@
+{
+  "info": {
+    "name": "Lab 3 - Thanh toán học phí",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "fee", "value": "http://localhost:4001" },
+    { "key": "bank", "value": "http://localhost:4002" }
+  ],
+  "item": [
+    { "name": "Xem công nợ SV1", "request": { "method": "GET", "url": "{{fee}}/students/1/fees" } },
+    { "name": "Xem công nợ SV2", "request": { "method": "GET", "url": "{{fee}}/students/2/fees" } },
+    { "name": "Xem công nợ SV3", "request": { "method": "GET", "url": "{{fee}}/students/3/fees" } },
+    {
+      "name": "Thanh toán 100.000đ (SV1)",
+      "request": {
+        "method": "POST", "url": "{{fee}}/students/1/payments",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"amount\": 100000}" }
+      }
+    },
+    {
+      "name": "Thanh toán 25.000.000đ (vượt hạn mức -> 402)",
+      "request": {
+        "method": "POST", "url": "{{fee}}/students/1/payments",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"amount\": 25000000}" }
+      }
+    },
+    {
+      "name": "Thanh toán vượt công nợ (SV3 -> 400)",
+      "request": {
+        "method": "POST", "url": "{{fee}}/students/3/payments",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"amount\": 5000000}" }
+      }
+    },
+    { "name": "Tổng hợp lệnh thanh toán", "request": { "method": "GET", "url": "{{fee}}/payments" } },
+    { "name": "Xem lệnh P1", "request": { "method": "GET", "url": "{{fee}}/payments/P1" } },
+    { "name": "Bank /stats", "request": { "method": "GET", "url": "{{bank}}/stats" } },
+    { "name": "Bank reset stats", "request": { "method": "POST", "url": "{{bank}}/stats/reset" } },
+    {
+      "name": "Bank trừ tiền trực tiếp (Idempotency-Key)",
+      "request": {
+        "method": "POST", "url": "{{bank}}/charges",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Idempotency-Key", "value": "TEST-1" }
+        ],
+        "body": { "mode": "raw", "raw": "{\"reference\": \"TEST-1\", \"amount\": 1000}" }
+      }
+    }
+  ]
+}

@@ -1,0 +1,369 @@
+{
+  "fixed": {
+    "scenario1": {
+      "bankDown": {
+        "payStatus": 503,
+        "payMs": 243,
+        "payBody": {
+          "error": "Không kết nối được tới ngân hàng",
+          "paymentId": "P1",
+          "status": "FAILED",
+          "detail": ""
+        },
+        "feesStatus": 200,
+        "feesMs": 2,
+        "feeAlive": true
+      },
+      "bankBackUp": {
+        "payStatus": 201,
+        "payMs": 20,
+        "payBody": {
+          "paymentId": "P2",
+          "studentId": "1",
+          "amount": 100000,
+          "status": "PAID",
+          "chargeId": "CH1",
+          "createdAt": "2026-10-20T03:08:16.799Z",
+          "updatedAt": "2026-10-20T03:08:16.817Z"
+        }
+      },
+      "bankUrl4999": {
+        "payStatus": 503,
+        "payMs": 103,
+        "payBody": {
+          "error": "Không kết nối được tới ngân hàng",
+          "paymentId": "P1",
+          "status": "FAILED",
+          "detail": ""
+        },
+        "feesStatus": 200,
+        "feesMs": 2
+      }
+    },
+    "scenario2": {
+      "single": {
+        "status": 504,
+        "ms": 4043,
+        "body": {
+          "error": "Chưa rõ kết quả trừ tiền, hệ thống sẽ đối soát lại",
+          "paymentId": "P1",
+          "status": "PENDING",
+          "detail": "Hết thời gian chờ ngân hàng"
+        }
+      },
+      "burst20": {
+        "statuses": {
+          "504": 20
+        },
+        "maxMs": 4021,
+        "totalMs": 4024,
+        "feesDuringBurstMs": [
+          4,
+          3,
+          2,
+          1,
+          1
+        ],
+        "feesMaxMs": 4
+      }
+    },
+    "scenario3": {
+      "run200": {
+        "statuses": {
+          "201": 200
+        },
+        "totalMs": 148,
+        "bankStats": {
+          "connections": 11,
+          "requests": 200,
+          "charges": 200,
+          "duplicates": 0
+        }
+      },
+      "afterIdle6s": {
+        "statuses": {
+          "201": 5
+        },
+        "bankStats": {
+          "connections": 13,
+          "requests": 205,
+          "charges": 205,
+          "duplicates": 0
+        }
+      }
+    },
+    "scenario4": {
+      "a_drop": {
+        "statuses": {
+          "201": 60
+        },
+        "success": 60,
+        "nonSuccessBodies": [],
+        "maxMs": 91,
+        "bankStats": {
+          "connections": 19,
+          "requests": 77,
+          "charges": 60,
+          "duplicates": 0
+        },
+        "feePayments": {
+          "total": 60,
+          "PAID": 60,
+          "FAILED": 0,
+          "PENDING": 0,
+          "PROCESSING": 0,
+          "paidAmount": 6000000
+        },
+        "debtDecrease": 6000000,
+        "debtMatchesPaid": true,
+        "afterReconcile": {
+          "feePayments": {
+            "total": 60,
+            "PAID": 60,
+            "FAILED": 0,
+            "PENDING": 0,
+            "PROCESSING": 0,
+            "paidAmount": 6000000
+          },
+          "bankStats": {
+            "connections": 19,
+            "requests": 77,
+            "charges": 60,
+            "duplicates": 0
+          },
+          "debtMatchesPaid": true
+        }
+      },
+      "b_fail": {
+        "statuses": {
+          "201": 60
+        },
+        "success": 60,
+        "nonSuccessBodies": [],
+        "maxMs": 231,
+        "bankStats": {
+          "connections": 2,
+          "requests": 81,
+          "charges": 60,
+          "duplicates": 0
+        },
+        "feePayments": {
+          "total": 60,
+          "PAID": 60,
+          "FAILED": 0,
+          "PENDING": 0,
+          "PROCESSING": 0,
+          "paidAmount": 6000000
+        },
+        "debtDecrease": 6000000,
+        "debtMatchesPaid": true,
+        "afterReconcile": {
+          "feePayments": {
+            "total": 60,
+            "PAID": 60,
+            "FAILED": 0,
+            "PENDING": 0,
+            "PROCESSING": 0,
+            "paidAmount": 6000000
+          },
+          "bankStats": {
+            "connections": 2,
+            "requests": 81,
+            "charges": 60,
+            "duplicates": 0
+          },
+          "debtMatchesPaid": true
+        }
+      },
+      "c_declined": {
+        "status": 402,
+        "ms": 61,
+        "body": {
+          "error": "Vượt hạn mức 20000000đ",
+          "paymentId": "P1",
+          "status": "FAILED",
+          "bankError": {
+            "error": "LIMIT_EXCEEDED",
+            "message": "Vượt hạn mức 20000000đ"
+          }
+        },
+        "bankStats": {
+          "connections": 2,
+          "requests": 1,
+          "charges": 0,
+          "duplicates": 0
+        }
+      }
+    }
+  },
+  "naive": {
+    "scenario1": {
+      "bankDown": {
+        "payStatus": 500,
+        "payMs": 51,
+        "payBody": {
+          "error": "",
+          "paymentId": "P1",
+          "status": "FAILED"
+        },
+        "feesStatus": 200,
+        "feesMs": 1,
+        "feeAlive": true
+      },
+      "bankBackUp": {
+        "payStatus": 201,
+        "payMs": 23,
+        "payBody": {
+          "paymentId": "P2",
+          "studentId": "1",
+          "amount": 100000,
+          "status": "PAID",
+          "chargeId": "CH1",
+          "createdAt": "2026-10-20T03:09:18.242Z",
+          "updatedAt": "2026-10-20T03:09:18.263Z"
+        }
+      },
+      "bankUrl4999": {
+        "payStatus": 500,
+        "payMs": 30,
+        "payBody": {
+          "error": "",
+          "paymentId": "P1",
+          "status": "FAILED"
+        },
+        "feesStatus": 200,
+        "feesMs": 1
+      }
+    },
+    "scenario2": {
+      "single": {
+        "status": 201,
+        "ms": 5053,
+        "body": {
+          "paymentId": "P1",
+          "studentId": "1",
+          "amount": 100000,
+          "status": "PAID",
+          "chargeId": "CH1",
+          "createdAt": "2026-10-20T03:09:19.100Z",
+          "updatedAt": "2026-10-20T03:09:24.136Z"
+        }
+      },
+      "burst20": {
+        "statuses": {
+          "201": 20
+        },
+        "maxMs": 5082,
+        "totalMs": 5086,
+        "feesDuringBurstMs": [
+          8,
+          2,
+          4,
+          4,
+          1
+        ],
+        "feesMaxMs": 8
+      }
+    },
+    "scenario3": {
+      "run200": {
+        "statuses": {
+          "201": 200
+        },
+        "totalMs": 219,
+        "bankStats": {
+          "connections": 201,
+          "requests": 200,
+          "charges": 200,
+          "duplicates": 0
+        }
+      },
+      "afterIdle6s": {
+        "statuses": {
+          "201": 5
+        },
+        "bankStats": {
+          "connections": 207,
+          "requests": 205,
+          "charges": 205,
+          "duplicates": 0
+        }
+      }
+    },
+    "scenario4": {
+      "a_drop": {
+        "statuses": {
+          "201": 41,
+          "500": 19
+        },
+        "success": 41,
+        "nonSuccessBodies": [
+          "500 FAILED"
+        ],
+        "maxMs": 36,
+        "bankStats": {
+          "connections": 61,
+          "requests": 60,
+          "charges": 60,
+          "duplicates": 0
+        },
+        "feePayments": {
+          "total": 60,
+          "PAID": 41,
+          "FAILED": 19,
+          "PENDING": 0,
+          "PROCESSING": 0,
+          "paidAmount": 4100000
+        },
+        "debtDecrease": 4100000,
+        "debtMatchesPaid": true
+      },
+      "b_fail": {
+        "statuses": {
+          "201": 46,
+          "500": 14
+        },
+        "success": 46,
+        "nonSuccessBodies": [
+          "500 FAILED"
+        ],
+        "maxMs": 40,
+        "bankStats": {
+          "connections": 61,
+          "requests": 60,
+          "charges": 46,
+          "duplicates": 0
+        },
+        "feePayments": {
+          "total": 60,
+          "PAID": 46,
+          "FAILED": 14,
+          "PENDING": 0,
+          "PROCESSING": 0,
+          "paidAmount": 4600000
+        },
+        "debtDecrease": 4600000,
+        "debtMatchesPaid": true
+      },
+      "c_declined": {
+        "status": 402,
+        "ms": 60,
+        "body": {
+          "error": "Vượt hạn mức 20000000đ",
+          "paymentId": "P1",
+          "status": "FAILED",
+          "bankError": {
+            "error": "LIMIT_EXCEEDED",
+            "message": "Vượt hạn mức 20000000đ"
+          }
+        },
+        "bankStats": {
+          "connections": 2,
+          "requests": 1,
+          "charges": 0,
+          "duplicates": 0
+        }
+      }
+    }
+  }
+}
